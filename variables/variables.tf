@@ -6,7 +6,7 @@ variable "image_id" {
 
 variable "instance_type" {
     default = "t3.micro"
-    type = "string"   
+    type = string   
 }
 
 variable "tags" {
@@ -17,4 +17,18 @@ variable "tags" {
         Name ="DB"
     }
       
+}
+
+variable "sg_name" {
+    default = "allow_ssh"  
+}
+
+variable "sg_description"{
+    default="allowing port 22"
+}
+variable "ssh_port" {
+    default = 22
+}
+variable "protocol" {
+    default = "tcp"  
 }
