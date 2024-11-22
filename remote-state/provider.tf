@@ -10,7 +10,7 @@ terraform {
     bucket = "ach-remote-state"
     key    = "remote-state-demo"
     region = "us-east-1"
-    # dynamodb_table = "daws76s-locking"
+    dynamodb_table = "remote-locking"
   }
 }
 
