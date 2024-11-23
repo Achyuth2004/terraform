@@ -6,7 +6,7 @@ variable "inbound_rules" {
             protocol = string
         })
     )
-    default = [ 
+    default = [
         {
             port     = 22
             cidr     = ["0.0.0.0/0"]
@@ -27,5 +27,5 @@ variable "inbound_rules" {
             cidr     = ["0.0.0.0/0"]
             protocol = "tcp"
         }
-     ]
+    ]
 }
