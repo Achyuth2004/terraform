@@ -1,26 +1,27 @@
-resource "aws_security_group" "allow_ports" {
-    name        = "allow_ports"
-    description = "Allowing ports 22, 80, 8080, 3306 access"
+resource "aws_security_group" "roboshop-all" { 
+    name        = "dynamic-demo"
+    description = "dynamic-demo"
 
-    # Directly defining 'ingress' with 'for_each'
-    ingress {
-        for_each = { for idx, rule in var.inbound_rules : idx => rule }
-
-        from_port   = each.value.port
-        to_port     = each.value.port
-        protocol    = each.value.protocol
-        cidr_blocks = each.value.cidr
+    dynamic ingress {
+        for_each = var.ingress_rules
+        content {
+          description      = ingress.value["description"]
+          from_port        = ingress.value["from_port"]
+          to_port          = ingress.value["to_port"]
+          protocol         = ingress.value["protocol"]
+          cidr_blocks      = ingress.value["cidr_blocks"]
+        }     
     }
 
     egress {
-        from_port   = 0       # Opening all ports for outbound traffic
-        to_port     = 0
-        protocol    = "-1"    # Allowing all protocols
-        cidr_blocks = ["0.0.0.0/0"]  # Allowing all outbound traffic
+        from_port        = 0
+        to_port          = 0
+        protocol         = "-1"
+        cidr_blocks      = ["0.0.0.0/0"]
+        #ipv6_cidr_blocks = ["::/0"]
     }
 
     tags = {
-        Name      = "allow_ports"  # More general name for allowing multiple ports
-        CreatedBy = "ACHYUTH"
+        Name = "dynamic-demo-1"
     }
 }
