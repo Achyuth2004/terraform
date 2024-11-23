@@ -2,14 +2,14 @@ resource "aws_security_group" "allow_ports" {
     name        = "allow_ports"
     description = "Allowing ports 22, 80, 8080, 3306 access"
 
-    dynamic "ingress" {
-        for_each = var.inbound_rules
-        content {
-            from_port   = each.value["port"]
-            to_port     = each.value["port"]
-            protocol    = each.value["protocol"]
-            cidr_blocks = each.value["cidr"]
-        }
+    # Directly defining 'ingress' with 'for_each'
+    ingress {
+        for_each = { for idx, rule in var.inbound_rules : idx => rule }
+
+        from_port   = each.value.port
+        to_port     = each.value.port
+        protocol    = each.value.protocol
+        cidr_blocks = each.value.cidr
     }
 
     egress {
